@@ -1,0 +1,36 @@
+{
+    "description": "\n",
+    "graphs": [
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:system.load.1{*} by {host}",
+                        "type": "area"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "title": "Avg of system.load.1 over * by host"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:docker.cpu.user{*} by {docker_image}",
+                        "type": "bars"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "title": "Avg of docker.cpu.user over * by docker_image"
+        }
+    ],
+    "read_only": false,
+    "template_variables": [],
+    "title": "App Timeboard"
+}

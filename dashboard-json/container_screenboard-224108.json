@@ -1,0 +1,762 @@
+{
+    "board_title": "Container Screenboard (bbd)",
+    "description": "",
+    "template_variables": [
+        {
+            "default": "*",
+            "name": "scope",
+            "prefix": null
+        },
+        {
+            "default": "*",
+            "name": "namespace",
+            "prefix": "kube_namespace"
+        },
+        {
+            "default": "*",
+            "name": "deployment",
+            "prefix": "deployment"
+        },
+        {
+            "default": "*",
+            "name": "node",
+            "prefix": "node"
+        },
+        {
+            "default": "*",
+            "name": "label",
+            "prefix": "label"
+        }
+    ],
+    "widgets": [
+        {
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:docker.containers.running{$scope,$namespace,$deployment,$node,$label} by {pod_name}.fill(0)",
+                        "type": "bars"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Running containers by pod",
+            "type": "timeseries",
+            "width": 38,
+            "x": 117,
+            "y": 12
+        },
+        {
+            "aggr": "sum",
+            "aggregator": "avg",
+            "autoscale": true,
+            "calc_func": "raw",
+            "conditional_formats": [],
+            "custom_unit": null,
+            "height": 9,
+            "is_valid_query": true,
+            "legend": false,
+            "legend_size": "0",
+            "metric": "docker.containers.running",
+            "metric_type": "standard",
+            "precision": 0,
+            "query": "sum:docker.containers.running{$scope,$pod,$replication_controller,$namespace}",
+            "res_calc_func": "raw",
+            "tags": [
+                "$scope",
+                "$pod"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "tile_def": {
+                "autoscale": true,
+                "custom_unit": null,
+                "precision": "0",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "green_on_white",
+                                "value": "0"
+                            }
+                        ],
+                        "q": "sum:docker.containers.running{$scope,$namespace,$deployment,$node,$label}"
+                    }
+                ],
+                "text_align": "center",
+                "viz": "query_value"
+            },
+            "timeframe": "5m",
+            "title": true,
+            "title_align": "center",
+            "title_size": 13,
+            "title_text": "Running containers",
+            "type": "query_value",
+            "width": 19,
+            "x": 117,
+            "y": 0
+        },
+        {
+            "aggr": "sum",
+            "aggregator": "avg",
+            "autoscale": true,
+            "calc_func": "raw",
+            "conditional_formats": [],
+            "custom_unit": null,
+            "height": 9,
+            "is_valid_query": true,
+            "legend": false,
+            "legend_size": "0",
+            "metric": "docker.containers.stopped",
+            "metric_type": "standard",
+            "precision": 0,
+            "query": "sum:docker.containers.stopped{$scope,$pod,$replication_controller,$namespace}",
+            "res_calc_func": "raw",
+            "tags": [
+                "$scope",
+                "$pod",
+                "$replication_controller",
+                "$namespace"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "tile_def": {
+                "autoscale": true,
+                "custom_unit": null,
+                "precision": "0",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "yellow_on_white",
+                                "value": "0"
+                            }
+                        ],
+                        "q": "sum:docker.containers.stopped{$scope,$namespace,$deployment,$node,$label}"
+                    }
+                ],
+                "text_align": "center",
+                "viz": "query_value"
+            },
+            "timeframe": "5m",
+            "title": true,
+            "title_align": "center",
+            "title_size": 13,
+            "title_text": "Stopped containers",
+            "type": "query_value",
+            "width": 18,
+            "x": 137,
+            "y": 0
+        },
+        {
+            "board_id": 39543,
+            "height": 11,
+            "margin": "",
+            "sizing": "zoom",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "",
+            "type": "image",
+            "url": "/static/images/screenboard/integrations/kubernetes.jpg",
+            "width": 22,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "board_id": 39543,
+            "height": 11,
+            "margin": "",
+            "sizing": "fit",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "",
+            "type": "image",
+            "url": "/static/images/screenboard/integrations/docker-logo-792x269.png",
+            "width": 22,
+            "x": 78,
+            "y": 0
+        },
+        {
+            "board_id": 39543,
+            "check": "kubernetes.kubelet.check",
+            "group": null,
+            "grouping": "cluster",
+            "height": 11,
+            "tags": [
+                "*"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "timeframe": "10m",
+            "title": true,
+            "title_align": "center",
+            "title_size": 13,
+            "title_text": "Kubelets up",
+            "type": "check_status",
+            "width": 15,
+            "x": 23,
+            "y": 0
+        },
+        {
+            "event_size": "s",
+            "height": 61,
+            "query": "sources:docker ",
+            "tags_execution": "and",
+            "timeframe": "1w",
+            "title": "Docker Event Stream",
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Docker Events",
+            "type": "event_stream",
+            "width": 38,
+            "x": 78,
+            "y": 24
+        },
+        {
+            "add_timeframe": false,
+            "board_id": 134088,
+            "height": 16,
+            "legend": null,
+            "legend_size": null,
+            "query": "avg:system.load.1{*} by {host}",
+            "tile_def": {
+                "group": null,
+                "groupby": null,
+                "noGroupHosts": true,
+                "noMetricHosts": false,
+                "requests": [
+                    {
+                        "q": "sum:kubernetes.pods.running{$scope,$node} by {host}",
+                        "type": "fill"
+                    }
+                ],
+                "scope": [
+                    "$scope",
+                    "$node"
+                ],
+                "style": {
+                    "fillMax": null,
+                    "fillMin": null,
+                    "palette": "yellow_to_green",
+                    "paletteFlip": false
+                },
+                "viz": "hostmap"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Number of running pods per node",
+            "type": "hostmap",
+            "width": 38,
+            "x": 0,
+            "y": 12
+        },
+        {
+            "board_id": 134088,
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:kubernetes.cpu.requests{$scope,$namespace,$deployment,$node,$label} by {host}",
+                        "style": {
+                            "palette": "warm"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Sum Kubernetes CPU requests per node",
+            "type": "timeseries",
+            "width": 38,
+            "x": 0,
+            "y": 31
+        },
+        {
+            "board_id": 134088,
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:kubernetes.memory.requests{$scope,$namespace,$deployment,$node,$label} by {host}",
+                        "style": {
+                            "palette": "cool"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Sum Kubernetes memory requests per node",
+            "type": "timeseries",
+            "width": 38,
+            "x": 0,
+            "y": 69
+        },
+        {
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:kubernetes.network.rx_bytes{$scope,$namespace,$deployment,$node,$label} by {host}",
+                        "style": {
+                            "palette": "purple"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network in per node",
+            "type": "timeseries",
+            "width": 38,
+            "x": 39,
+            "y": 31
+        },
+        {
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:kubernetes.network.tx_bytes{$scope,$namespace,$deployment,$node,$label} by {host}",
+                        "style": {
+                            "palette": "green"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network out per node",
+            "type": "timeseries",
+            "width": 38,
+            "x": 39,
+            "y": 50
+        },
+        {
+            "board_id": 134088,
+            "height": 9,
+            "query": "sources:docker ",
+            "tags_execution": "and",
+            "timeframe": "1d",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Events",
+            "type": "event_timeline",
+            "width": 38,
+            "x": 78,
+            "y": 12
+        },
+        {
+            "add_timeframe": false,
+            "board_id": 134088,
+            "height": 16,
+            "legend": null,
+            "legend_size": null,
+            "query": "avg:system.load.1{*} by {host}",
+            "tile_def": {
+                "group": null,
+                "groupby": null,
+                "noGroupHosts": true,
+                "noMetricHosts": false,
+                "requests": [
+                    {
+                        "q": "sum:kubernetes.cpu.usage.total{$scope,$node} by {host}",
+                        "type": "fill"
+                    }
+                ],
+                "scope": [
+                    "$scope",
+                    "$node"
+                ],
+                "style": {
+                    "fillMax": null,
+                    "fillMin": null,
+                    "palette": "YlOrRd",
+                    "paletteFlip": false
+                },
+                "viz": "hostmap"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "CPU utilization per node",
+            "type": "hostmap",
+            "width": 38,
+            "x": 0,
+            "y": 50
+        },
+        {
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:kubernetes.diskio.io_service_bytes.stats.total{$scope,$namespace,$deployment,$node,$label} by {host}",
+                        "style": {
+                            "palette": "grey"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Disk I/O per node",
+            "type": "timeseries",
+            "width": 38,
+            "x": 39,
+            "y": 69
+        },
+        {
+            "autoscale": true,
+            "board_id": 224108,
+            "height": 9,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": false,
+                "custom_unit": "%",
+                "precision": 0,
+                "requests": [
+                    {
+                        "aggregator": "last",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">=",
+                                "custom_bg_color": null,
+                                "custom_fg_color": null,
+                                "invert": false,
+                                "palette": "white_on_green",
+                                "value": 80
+                            },
+                            {
+                                "comparator": ">",
+                                "custom_bg_color": null,
+                                "custom_fg_color": null,
+                                "invert": false,
+                                "palette": "white_on_yellow",
+                                "value": 50
+                            },
+                            {
+                                "comparator": ">=",
+                                "custom_bg_color": null,
+                                "custom_fg_color": null,
+                                "invert": false,
+                                "palette": "white_on_red",
+                                "value": 0
+                            }
+                        ],
+                        "q": "100 * ( sum:docker.containers.running{$scope} / timeshift(sum:docker.containers.running{$scope}, -300) )"
+                    }
+                ],
+                "text_align": "center",
+                "viz": "query_value"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "",
+            "type": "query_value",
+            "width": 15,
+            "x": 101,
+            "y": 0
+        },
+        {
+            "board_id": 224108,
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:docker.cpu.system{$scope} by {docker_image}.fill(0)",
+                        "style": {
+                            "palette": "cool"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Docker CPU by Image",
+            "type": "timeseries",
+            "width": 38,
+            "x": 117,
+            "y": 31
+        },
+        {
+            "board_id": 224108,
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:docker.mem.rss{$scope} by {docker_image}.fill(0)",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Docker Memory By Image",
+            "type": "timeseries",
+            "width": 38,
+            "x": 117,
+            "y": 50
+        },
+        {
+            "board_id": 224108,
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:docker.net.bytes_rcvd{$scope} by {docker_image}",
+                        "style": {
+                            "palette": "cool"
+                        },
+                        "type": "area"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Docker Net Bytes by Image",
+            "type": "timeseries",
+            "width": 38,
+            "x": 117,
+            "y": 69
+        },
+        {
+            "add_timeframe": false,
+            "board_id": 224160,
+            "height": 16,
+            "legend": null,
+            "legend_size": null,
+            "query": "avg:system.load.1{*} by {host}",
+            "tile_def": {
+                "group": null,
+                "groupby": null,
+                "noGroupHosts": true,
+                "noMetricHosts": false,
+                "notes": null,
+                "requests": [
+                    {
+                        "q": "avg:kubernetes.network.tx_bytes{$scope,$node} by {host}",
+                        "type": "fill"
+                    },
+                    {
+                        "q": "avg:kubernetes.network.rx_bytes{$scope,$node} by {host}",
+                        "type": "size"
+                    }
+                ],
+                "scope": [
+                    "$scope",
+                    "$node"
+                ],
+                "style": {
+                    "fillMax": null,
+                    "fillMin": null,
+                    "palette": "green_to_orange",
+                    "paletteFlip": false
+                },
+                "viz": "hostmap"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network Utilization By Node",
+            "type": "hostmap",
+            "width": 38,
+            "x": 39,
+            "y": 12
+        },
+        {
+            "autoscale": true,
+            "board_id": 224160,
+            "height": 9,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "precision": "0",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "custom_fg_color": "#6a53a1",
+                                "palette": "custom_text",
+                                "value": "0"
+                            }
+                        ],
+                        "q": "sum:kubernetes_state.deployment.replicas_desired{$scope,$namespace,$deployment,$node,$label}"
+                    }
+                ],
+                "viz": "query_value"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Desired Pods",
+            "type": "query_value",
+            "width": 12,
+            "x": 39,
+            "y": 0
+        },
+        {
+            "autoscale": true,
+            "board_id": 224160,
+            "height": 9,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "precision": "0",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "green_on_white",
+                                "value": "0"
+                            }
+                        ],
+                        "q": "sum:kubernetes_state.deployment.replicas_available{$scope,$namespace,$deployment,$node,$label}"
+                    }
+                ],
+                "viz": "query_value"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Available Pods",
+            "type": "query_value",
+            "width": 12,
+            "x": 52,
+            "y": 0
+        },
+        {
+            "autoscale": true,
+            "board_id": 224160,
+            "height": 9,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "precision": "0",
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "yellow_on_white",
+                                "value": "0"
+                            },
+                            {
+                                "comparator": "<=",
+                                "palette": "green_on_white",
+                                "value": "0"
+                            }
+                        ],
+                        "q": "sum:kubernetes_state.deployment.replicas_unavailable{$scope,$namespace,$deployment,$node,$label}"
+                    }
+                ],
+                "viz": "query_value"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Unavailable Pods",
+            "type": "query_value",
+            "width": 12,
+            "x": 65,
+            "y": 0
+        }
+    ],
+    "width": "100%"
+}

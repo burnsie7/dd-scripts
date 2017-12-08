@@ -1,0 +1,282 @@
+{
+    "board_title": "Gunicorn Timeboard",
+    "description": "description",
+    "template_variables": [
+        {
+            "default": "env:wcd",
+            "name": "scope",
+            "prefix": "env"
+        }
+    ],
+    "widgets": [
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:nginx.net.request_per_s{*}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Avg of nginx.net.request_per_s over *",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:nginx.net.connections{*}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Avg of nginx.net.connections over *",
+            "type": "timeseries",
+            "width": 47,
+            "x": 52,
+            "y": 0
+        },
+        {
+            "height": 13,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:nginx.net.conn_dropped_per_s{wcd}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Avg of nginx.net.conn_dropped_per_s over *",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 18
+        },
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:nginx.net.conn_opened_per_s{*}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Avg of nginx.net.conn_opened_per_s over *",
+            "type": "timeseries",
+            "width": 47,
+            "x": 52,
+            "y": 18
+        },
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "100 * ( sum:gunicorn.request.status.200{$scope}.as_count() + sum:gunicorn.request.status.204{$scope}.as_count() + sum:gunicorn.request.status.201{$scope}.as_count() ) / sum:gunicorn.requests{$scope}.as_count()",
+                        "style": {
+                            "palette": "green"
+                        },
+                        "type": "bars"
+                    },
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "100 * ( sum:gunicorn.request.status.301{$scope}.as_count() + sum:gunicorn.request.status.302{$scope}.as_count() + sum:gunicorn.request.status.303{$scope}.as_count() + sum:gunicorn.request.status.304{$scope}.as_count() + sum:gunicorn.request.status.307{$scope}.as_count() ) / sum:gunicorn.requests{$scope}.as_count()",
+                        "style": {
+                            "palette": "yellow"
+                        },
+                        "type": "bars"
+                    },
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "100 * ( sum:gunicorn.request.status.400{$scope}.as_count() + sum:gunicorn.request.status.401{$scope}.as_count() + sum:gunicorn.request.status.403{$scope}.as_count() + sum:gunicorn.request.status.404{$scope}.as_count() + sum:gunicorn.request.status.405{$scope}.as_count() + sum:gunicorn.request.status.406{$scope}.as_count() ) / sum:gunicorn.requests{$scope}.as_count()",
+                        "style": {
+                            "palette": "orange"
+                        },
+                        "type": "bars"
+                    },
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "100 * ( sum:gunicorn.request.status.512{*}.as_count() + sum:gunicorn.request.status.500{*}.as_count() + sum:gunicorn.request.status.504{*}.as_count() ) / sum:gunicorn.requests{*}.as_count()",
+                        "style": {
+                            "palette": "red"
+                        },
+                        "type": "bars"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "gunicorn.request.status.200, gunicorn.request.status.301, gunicorn.request.st...",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 36
+        },
+        {
+            "height": 13,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "anomalies(sum:gunicorn.requests{*}.as_count(), 'adaptive', 4)",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Sum of gunicorn.requests over $scope",
+            "type": "timeseries",
+            "width": 47,
+            "x": 52,
+            "y": 36
+        },
+        {
+            "height": 13,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:gunicorn.request.duration.avg{wcd} by {host}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Avg of gunicorn.request.duration.avg over $scope by host",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 54
+        },
+        {
+            "height": 13,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:gunicorn.workers{wcd} by {host}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Sum of gunicorn.workers over * by host",
+            "type": "timeseries",
+            "width": 47,
+            "x": 52,
+            "y": 54
+        },
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "sum:gunicorn.requests{*} by {host}.as_count()",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "Sum of gunicorn.requests over * by host",
+            "type": "timeseries",
+            "width": 47,
+            "x": 0,
+            "y": 72
+        },
+        {
+            "height": 13,
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:haproxy.frontend.requests.rate{wcd}",
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "HAPROXY Request Rate",
+            "type": "timeseries",
+            "width": 47,
+            "x": 52,
+            "y": 72
+        }
+    ],
+    "width": "100%"
+}
