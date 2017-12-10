@@ -1,0 +1,16 @@
+import socket
+
+UDP_IP = "127.0.0.1"
+UDP_PORT = 8125
+
+def gen_event():
+    sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+    title = 'Prod build #2667 succeeded on PROD.'
+    text = 'Jenkins Build #2667 completed (18.33 secs) without error.\nPlease ensure performance post completion and view the build information here: http://www.datadog.jenkins.com/build/2667.'
+    msg = "_e{%d,%d}:%s|%s|\#fred" % (len(title), len(text), title, text)
+    sock.sendto(msg, (UDP_IP, UDP_PORT))
+    return msg
+
+title="Jenkins from the shell"
+text="Jenkins build does things"
+echo "_e{${#title},${#text}}:$title|$text|t:success|#source:jenkins,result:success"  >/dev/udp/localhost/8125

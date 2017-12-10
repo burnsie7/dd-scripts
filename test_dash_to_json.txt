@@ -1,0 +1,12 @@
+getting dashboard using default file output:
+python dash_to_json.py get -d 214520 -a $DD_API_KEY -p $DD_APP_KEY
+
+specifying file to write to:
+python dash_to_json.py get -d 214520 -f my_screenboard.json -a $DD_API_KEY -p $DD_APP_KEY
+
+creating from json:
+
+python dash_to_json.py create -f my_screenboard.json -a $DD_API_KEY -p $DD_APP_KEY
+
+
+python dash_to_json.py get -d 346735 -f my_timeboard -a $DD_API_KEY -p $DD_APP_KEY
