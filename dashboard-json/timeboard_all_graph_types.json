@@ -1,0 +1,252 @@
+{
+    "description": "created by benjamin.burns@datadoghq.com",
+    "graphs": [
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Timeseries - Metric"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "limit": 200,
+                        "metric": "process.stat.cpu.total_pct",
+                        "notes": null,
+                        "query_type": "process",
+                        "style": {
+                            "palette": "dog_classic_area"
+                        },
+                        "tag_filters": [
+                            "account:demo3"
+                        ],
+                        "text_filter": ""
+                    }
+                ],
+                "viz": "process"
+            },
+            "title": "Process"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "change_type": "absolute",
+                        "compare_to": "hour_before",
+                        "extra_col": "",
+                        "increase_good": true,
+                        "order_by": "change",
+                        "order_dir": "desc",
+                        "q": "avg:system.load.1{*} by {host}"
+                    }
+                ],
+                "viz": "change"
+            },
+            "title": "Change Graph"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "viz": "distribution"
+            },
+            "title": "Distribution"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    },
+                    {
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    },
+                    {
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    },
+                    {
+                        "conditional_formats": [],
+                        "log_query": {
+                            "compute": {
+                                "aggregation": "avg",
+                                "facet": "@duration"
+                            },
+                            "groupBy": [],
+                            "index": "demo",
+                            "search": {
+                                "query": "source:nginx"
+                            }
+                        },
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    },
+                    {
+                        "apm_query": {
+                            "compute": {
+                                "aggregation": "cardinality",
+                                "facet": "status"
+                            },
+                            "groupBy": [],
+                            "index": "trace-search",
+                            "search": {
+                                "query": "service:mcnulty-query"
+                            }
+                        },
+                        "conditional_formats": [],
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "status": "done",
+                "viz": "timeseries"
+            },
+            "title": "Timeseries - Metrics and Logs and APM"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [
+                            {
+                                "comparator": ">",
+                                "palette": "white_on_green",
+                                "value": "3"
+                            },
+                            {
+                                "comparator": "<",
+                                "palette": "white_on_red",
+                                "value": "7"
+                            }
+                        ],
+                        "q": "avg:system.load.1{*}, avg:ansible.task.ok{*}, avg:system.load.1{*}+avg:ansible.task.ok{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "viz": "query_value"
+            },
+            "title": "Query Value - Two Queries"
+        },
+        {
+            "definition": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "avg:system.load.1{*}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "viz": "heatmap"
+            },
+            "title": "Heat Map"
+        },
+        {
+            "definition": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:ansible.task.failures{*} by {playbook}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "dog_classic"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "title": "Top List"
+        },
+        {
+            "definition": {
+                "group": null,
+                "noGroupHosts": false,
+                "noMetricHosts": false,
+                "notes": null,
+                "requests": [
+                    {
+                        "q": "avg:kafka.open_files{*} by {host}",
+                        "type": "fill"
+                    }
+                ],
+                "scope": null,
+                "style": {
+                    "fillMax": null,
+                    "fillMin": null,
+                    "palette": "green_to_orange",
+                    "paletteFlip": false
+                },
+                "viz": "hostmap"
+            },
+            "title": "Host map"
+        }
+    ],
+    "read_only": false,
+    "template_variables": [],
+    "title": "Timeboard - All Graph Types"
+}

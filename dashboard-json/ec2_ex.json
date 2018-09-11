@@ -1,0 +1,528 @@
+{
+    "board_title": "AWS EC2 - SWGF",
+    "description": "",
+    "template_variables": [
+        {
+            "default": "*",
+            "name": "scope",
+            "prefix": null
+        },
+        {
+            "default": "*",
+            "name": "region",
+            "prefix": "region"
+        },
+        {
+            "default": "*",
+            "name": "autoscaling_group",
+            "prefix": "autoscaling_group"
+        },
+        {
+            "default": "*",
+            "name": "image_id",
+            "prefix": "image"
+        }
+    ],
+    "widgets": [
+        {
+            "event_size": "s",
+            "height": 32,
+            "query": "sources:ec2",
+            "tags_execution": "and",
+            "timeframe": "1w",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "EC2 events",
+            "type": "event_stream",
+            "width": 38,
+            "x": 0,
+            "y": 44
+        },
+        {
+            "aggr": "sum",
+            "aggregator": "max",
+            "autoscale": true,
+            "calc_func": "raw",
+            "conditional_formats": [],
+            "custom_unit": null,
+            "height": 8,
+            "is_valid_query": true,
+            "legend": false,
+            "legend_size": "0",
+            "metric": "aws.ec2.host_ok",
+            "metric_type": "standard",
+            "padding": 8,
+            "precision": 2,
+            "query": "sum:aws.ec2.host_ok{$zone,$region,$account}",
+            "res_calc_func": "raw",
+            "tags": [
+                "$zone",
+                "$region",
+                "$account"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "tile_def": {
+                "autoscale": true,
+                "custom_unit": null,
+                "precision": 2,
+                "requests": [
+                    {
+                        "aggregator": "max",
+                        "conditional_formats": [],
+                        "q": "sum:aws.ec2.host_ok{$scope,$region,$autoscaling_group,$image_id}",
+                        "style": {
+                            "palette": "dog_classic",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": null
+                    }
+                ],
+                "text_align": "center",
+                "viz": "query_value"
+            },
+            "timeframe": "1h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Active EC2 instances (max)",
+            "type": "query_value",
+            "width": 18,
+            "wrapped": true,
+            "x": 20,
+            "y": 13
+        },
+        {
+            "height": 11,
+            "margin": "",
+            "sizing": "center",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "image",
+            "url": "https://app.datadoghq.com/static/images/saas_logos/bot/amazon_ec2.png",
+            "width": 38,
+            "x": 0,
+            "y": 0
+        },
+        {
+            "height": 16,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(sum:aws.ec2.host_ok{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'max', 'desc')",
+                        "style": {
+                            "palette": "grey"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Active EC2 instances (max) by instance type",
+            "type": "toplist",
+            "width": 38,
+            "x": 0,
+            "y": 25
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.network_in{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "blue",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network in by instance type (top 10)",
+            "type": "timeseries",
+            "width": 42,
+            "x": 113,
+            "y": 31
+        },
+        {
+            "auto_refresh": false,
+            "bgcolor": "gray",
+            "font_size": "18",
+            "height": 23,
+            "html": "CPU",
+            "refresh_every": 30000,
+            "text_align": "center",
+            "tick": true,
+            "tick_edge": "right",
+            "tick_pos": "50%",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "note",
+            "width": 12,
+            "x": 40,
+            "y": 0
+        },
+        {
+            "auto_refresh": false,
+            "bgcolor": "gray",
+            "font_size": "18",
+            "height": 5,
+            "html": "I/O",
+            "refresh_every": 30000,
+            "text_align": "center",
+            "tick": true,
+            "tick_edge": "bottom",
+            "tick_pos": "50%",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "note",
+            "width": 71,
+            "x": 40,
+            "y": 25
+        },
+        {
+            "auto_refresh": false,
+            "bgcolor": "gray",
+            "font_size": "18",
+            "height": 5,
+            "html": "Network",
+            "refresh_every": 30000,
+            "text_align": "center",
+            "tick": true,
+            "tick_edge": "bottom",
+            "tick_pos": "50%",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "note",
+            "width": 71,
+            "x": 113,
+            "y": 25
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.network_in{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "blue"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network in by instance type",
+            "type": "toplist",
+            "width": 28,
+            "x": 156,
+            "y": 31
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.network_out{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "red",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network out by instance type (top 10)",
+            "type": "timeseries",
+            "width": 42,
+            "x": 113,
+            "y": 55
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.network_out{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "red"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Network out by instance type",
+            "type": "toplist",
+            "width": 28,
+            "x": 156,
+            "y": 55
+        },
+        {
+            "board_id": 52716,
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.cpuutilization{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "warm",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "CPU utilization by instance type (top 10)",
+            "type": "timeseries",
+            "width": 79,
+            "x": 53,
+            "y": 0
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.disk_write_bytes{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "purple",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Writes by instance type (top 10)",
+            "type": "toplist",
+            "width": 42,
+            "x": 40,
+            "y": 55
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "autoscale": true,
+                "requests": [
+                    {
+                        "aggregator": "avg",
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.disk_read_bytes{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "green",
+                            "type": "solid",
+                            "width": "normal"
+                        },
+                        "type": "line"
+                    }
+                ],
+                "viz": "timeseries"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Reads by instance type (top 10)",
+            "type": "toplist",
+            "width": 42,
+            "x": 40,
+            "y": 31
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.disk_read_bytes{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "green"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Reads by instance type",
+            "type": "toplist",
+            "width": 28,
+            "x": 83,
+            "y": 31
+        },
+        {
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.disk_write_bytes{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "purple"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 13,
+            "title_text": "Writes by instance type",
+            "type": "toplist",
+            "width": 28,
+            "x": 83,
+            "y": 55
+        },
+        {
+            "auto_refresh": false,
+            "bgcolor": "yellow",
+            "board_id": 52716,
+            "font_size": "14",
+            "height": 23,
+            "html": "Remember to [enable Detailed Monitoring](http://docs.aws.amazon.com/AWSEC2/latest/UserGuide/using-cloudwatch-new.html) on your Amazon EC2 Instances from the AWS console to make sure your metrics are reported in one-minute intervals",
+            "refresh_every": 30000,
+            "text_align": "left",
+            "tick": false,
+            "tick_edge": "bottom",
+            "tick_pos": "50%",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "",
+            "type": "note",
+            "width": 22,
+            "x": 162,
+            "y": 0
+        },
+        {
+            "board_id": 52808,
+            "check": "aws.status",
+            "group": null,
+            "grouping": "cluster",
+            "height": 10,
+            "tags": [
+                "service:ec2"
+            ],
+            "text_align": "center",
+            "text_size": "auto",
+            "timeframe": "30m",
+            "title": true,
+            "title_align": "center",
+            "title_size": 13,
+            "title_text": "EC2 Service Status",
+            "type": "check_status",
+            "width": 18,
+            "x": 0,
+            "y": 13
+        },
+        {
+            "board_id": 266237,
+            "height": 21,
+            "legend": false,
+            "legend_size": "0",
+            "tile_def": {
+                "requests": [
+                    {
+                        "conditional_formats": [],
+                        "q": "top(avg:aws.ec2.cpuutilization{$scope,$region,$autoscaling_group,$image_id} by {instance-type}, 10, 'mean', 'desc')",
+                        "style": {
+                            "palette": "orange"
+                        }
+                    }
+                ],
+                "viz": "toplist"
+            },
+            "timeframe": "4h",
+            "title": true,
+            "title_align": "left",
+            "title_size": 16,
+            "title_text": "CPU utilization by instance type",
+            "type": "toplist",
+            "width": 28,
+            "x": 133,
+            "y": 0
+        }
+    ],
+    "width": "100%"
+}
